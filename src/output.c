@@ -76,6 +76,7 @@ sixel_output_new(
     (*output)->penetrate_multiplexer = 0;
     (*output)->encode_policy = SIXEL_ENCODEPOLICY_AUTO;
     (*output)->ormode = 0;
+    (*output)->keycolor = -1;
     (*output)->allocator = allocator;
 
     status = SIXEL_OK;
