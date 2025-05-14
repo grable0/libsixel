@@ -74,6 +74,7 @@ struct sixel_output {
     int penetrate_multiplexer;
     int encode_policy;
     int ormode;
+    int keycolor;
 
     void *priv;
     int pos;
