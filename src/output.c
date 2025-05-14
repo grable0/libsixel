@@ -198,6 +198,14 @@ sixel_output_set_ormode(sixel_output_t *output, int ormode)
 }
 
 
+/* set transparent color index (should match sixel_dither_set_transparent)*/
+SIXELAPI void
+sixel_output_set_transparent(sixel_output_t *output, int transparent)
+{
+    output->keycolor = transparent;
+}
+
+
 /* set encodeing policy: auto, fast or size */
 SIXELAPI void
 sixel_output_set_encode_policy(sixel_output_t *output, int encode_policy)
