@@ -308,6 +308,10 @@ sixel_encode_header(int width, int height, sixel_output_t *output)
         p[1] = 5;
     }
 
+    if (output->keycolor != -1) {
+        p[1] = 1;
+    }
+	
     output->pos = 0;
 
     if (!output->skip_dcs_envelope) {
