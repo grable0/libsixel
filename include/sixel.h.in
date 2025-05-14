@@ -358,7 +358,7 @@ typedef int SIXELSTATUS;
                                                     size -> encode to as small sixel
                                                             sequence as possible
                                                 */
-#define SIXEL_OPTFLAG_            ('O')  /* -O, --:
+#define SIXEL_OPTFLAG_ORMODE             ('O')  /* -O, --:
                                                   output  sixel image
                                                 */
 #define SIXEL_OPTFLAG_BGCOLOR           ('B')  /* -B BGCOLOR, --bgcolor=BGCOLOR:
