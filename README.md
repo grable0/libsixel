@@ -11,6 +11,8 @@ Its only purpose is to enable **transparancy** for libsixel.
 It adds a companion function to `sixel_dither_set_transparent`, called `sixel_output_set_transparent` which passes on the color key to the output.
 The output then enables sixel transparancy mode when it encodes a sixel header.
 
+!NOTE: it doesnt actually use the color key, it only checks if its >=0 and then enables transparancy mode...
+
 ## This is a fork
 
 This is a fork with various improvements and security patches. Hayaki Saito, the project's originator and long-time maintainer, disappeared in 1/2020. It's unknown what happened to him, he no longer even posts on Twitter. This is a continuation by the community. Fredrick R. Brennan (@ctrlcctrlv) is lead maintainer. For more information see [saitoha/libsixel issue №154](https://github.com/saitoha/libsixel/issues/154).
