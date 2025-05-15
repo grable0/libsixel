@@ -308,10 +308,10 @@ sixel_encode_header(int width, int height, sixel_output_t *output)
         p[1] = 5;
     }
 
-    if (output->keycolor != -1) {
-        p[1] = 1;
-    }
-	
+		if (output->keycolor != -1) {
+			p[1] = 1;
+		}
+
     output->pos = 0;
 
     if (!output->skip_dcs_envelope) {
@@ -327,7 +327,7 @@ sixel_encode_header(int width, int height, sixel_output_t *output)
             sixel_advance(output, DCS_START_7BIT_SIZE);
         }
     }
-
+		
     if (p[2] == 0) {
         pcount--;
         if (p[1] == 0) {
@@ -1655,6 +1655,8 @@ sixel_encode(
         status = SIXEL_BAD_INPUT;
         goto end;
     }
+		
+		sixel_output_set_transparent( output, dither->keycolor);
 
     if (dither->quality_mode == SIXEL_QUALITY_HIGHCOLOR) {
         status = sixel_encode_highcolor(pixels, width, height,

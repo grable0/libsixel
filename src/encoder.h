@@ -63,6 +63,7 @@ struct sixel_encoder {
     int penetrate_multiplexer;
     int encode_policy;
     int ormode;
+    int keycolor;
     int pipe_mode;
     int verbose;
     int has_gri_arg_limit;

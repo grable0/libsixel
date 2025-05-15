@@ -38,6 +38,8 @@
 #include <sixel.h>
 #include "tty.h"
 #include "encoder.h"
+#include "output.h"
+#include "dither.h"
 #include "rgblookup.h"
 
 
@@ -568,6 +570,10 @@ sixel_encoder_prepare_palette(
     }
     sixel_dither_set_pixelformat(*dither, sixel_frame_get_pixelformat(frame));
 
+		if (encoder->keycolor != -1 && (*dither)->keycolor == -1) {
+			sixel_dither_set_transparent(*dither, encoder->keycolor);
+		}
+		
     status = SIXEL_OK;
 
 end:
@@ -822,9 +828,9 @@ sixel_encoder_output_with_macro(
     start = clock();
     if (sixel_frame_get_loop_no(frame) == 0) {
         if (encoder->macro_number >= 0) {
-            nwrite = sprintf(buffer, "\033P%d;0;1!z", encoder->macro_number);
+            nwrite = sprintf(buffer, "\033P%d;%d;1!z", encoder->macro_number, output->keycolor != -1);
         } else {
-            nwrite = sprintf(buffer, "\033P%d;0;1!z", sixel_frame_get_frame_no(frame));
+            nwrite = sprintf(buffer, "\033P%d;%d;1!z", sixel_frame_get_frame_no(frame), output->keycolor != -1);
         }
         if (nwrite < 0) {
             status = (SIXEL_LIBC_ERROR | (errno & 0xff));
@@ -982,7 +988,13 @@ sixel_encoder_encode_frame(
         output, encoder->penetrate_multiplexer);
     sixel_output_set_encode_policy(output, encoder->encode_policy);
     sixel_output_set_ormode(output, encoder->ormode);
-
+		if(dither->keycolor != -1) {
+			sixel_output_set_transparent(output, dither->keycolor);
+		} else {
+			sixel_output_set_transparent(output, encoder->keycolor);
+			sixel_dither_set_transparent(dither, encoder->keycolor);
+		}
+		
     if (sixel_frame_get_multiframe(frame) && !encoder->fstatic) {
         if (sixel_frame_get_loop_no(frame) != 0 || sixel_frame_get_frame_no(frame) != 0) {
             is_animation = 1;
@@ -1100,6 +1112,7 @@ sixel_encoder_new(
     (*ppencoder)->penetrate_multiplexer = 0;
     (*ppencoder)->encode_policy         = SIXEL_ENCODEPOLICY_AUTO;
     (*ppencoder)->ormode                = 0;
+    (*ppencoder)->keycolor              = -1;
     (*ppencoder)->pipe_mode             = 0;
     (*ppencoder)->bgcolor               = NULL;
     (*ppencoder)->outfd                 = STDOUT_FILENO;
@@ -1561,6 +1574,16 @@ sixel_encoder_setopt(
         break;
     case SIXEL_OPTFLAG_ORMODE:  /* O */
         encoder->ormode = 1;
+        break;
+    case SIXEL_OPTFLAG_TRANSPARENT:  /* T */
+        encoder->keycolor = atoi(value);
+				if (encoder->keycolor < -1) encoder->keycolor = -1;
+				else if (encoder->keycolor > 255) {
+						sixel_helper_set_additional_message(
+								"transparent parameter must be between -1 and 255 (-1=disabled)");
+						status = SIXEL_BAD_ARGUMENT;
+						goto end;
+				}
         break;
     case SIXEL_OPTFLAG_COMPLEXION_SCORE:  /* C */
         encoder->complexion = atoi(value);
