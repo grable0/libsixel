@@ -7,7 +7,7 @@ libsixel
 
 ## This is YET NOTHER fork
 
-Its only purpose is to enable **transparancy** for libsixel.
+Its only purpose is to enable *transparancy*, or really **color keying** for libsixel.
 
 It adds a companion function to `sixel_dither_set_transparent`, `sixel_output_set_transparent` which passes on the color key to the output.
 The output then enables sixel transparancy mode when it encodes a sixel header if it detects a color key >=0.
