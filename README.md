@@ -8,10 +8,13 @@ libsixel
 ## This is YET NOTHER fork
 
 Its only purpose is to enable **transparancy** for libsixel.
-It adds a companion function to `sixel_dither_set_transparent`, called `sixel_output_set_transparent` which passes on the color key to the output.
-The output then enables sixel transparancy mode when it encodes a sixel header.
 
-!NOTE: it doesnt actually use the color key, it only checks if its >=0 and then enables transparancy mode...
+It adds a companion function to `sixel_dither_set_transparent`, `sixel_output_set_transparent` which passes on the color key to the output.
+The output then enables sixel transparancy mode when it encodes a sixel header if it detects a color key >=0.
+
+It also adds options `-T TRANSCOLOR` and `--transparent=TRANSCOLOR` to `img2sixel` (and internally in libsixel) to force a specific color key index (0..255)
+
+!NOTE: calling `sixel_output_set_transparent` isnt really required, since the color key should be forwarded to or from the encoder/dither.
 
 ## This is a fork
 
