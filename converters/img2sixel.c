@@ -287,6 +287,9 @@ void show_help(void)
             "                             rgb:rr/gg/bb\n"
             "                             rgb:rrr/ggg/bbb\n"
             "                             rgb:rrrr/gggg/bbbb\n"
+						"-T TRANSCOLOR, --transparent=TRANSCOLOR\n"
+						"                           set transparent color key\n"
+						"                             TRANSCOLOR is a color index 0..255, -1=disabled\n"
             "-P, --penetrate            penetrate GNU Screen using DCS\n"
             "                           pass-through sequence\n"
             "-D, --pipe-mode            [[deprecated]] read source images from\n"
@@ -334,7 +337,7 @@ main(int argc, char *argv[])
     int long_opt;
     int option_index;
 #endif  /* HAVE_GETOPT_LONG */
-    char const *optstring = "o:78ORp:m:eb:Id:f:s:c:w:h:r:q:kil:t:ugvSn:PE:B:C:DVH";
+    char const *optstring = "o:78ORp:m:eb:Id:f:s:c:w:h:r:q:kil:t:ugvSn:PE:B:C:DT:VH";
 #ifdef HAVE_GETOPT_LONG
     struct option long_options[] = {
         {"outfile",          no_argument,        &long_opt, 'o'},
@@ -369,6 +372,7 @@ main(int argc, char *argv[])
         {"complexion-score", required_argument,  &long_opt, 'C'},
         {"pipe-mode",        no_argument,        &long_opt, 'D'}, /* deprecated */
         {"ormode",           no_argument,        &long_opt, 'O'},
+        {"transparent",      required_argument,  &long_opt, 'T'},
         {"version",          no_argument,        &long_opt, 'V'},
         {"help",             no_argument,        &long_opt, 'H'},
         {0, 0, 0, 0}
@@ -453,7 +457,7 @@ argerr:
             "                 [-f findtype] [-s selecttype] [-c geometory] [-w width]\n"
             "                 [-h height] [-r resamplingtype] [-q quality] [-l loopmode]\n"
             "                 [-t palettetype] [-n macronumber] [-C score] [-b palette]\n"
-            "                 [-E encodepolicy] [-B bgcolor] [-o outfile] [filename ...]\n"
+            "                 [-E encodepolicy] [-B bgcolor] [-T transcolor] [-o outfile] [filename ...]\n"
             "for more details, type: 'img2sixel -H'.\n");
 
 error:
