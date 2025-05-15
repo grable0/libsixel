@@ -11,10 +11,22 @@ Its only purpose is to enable **transparancy** for libsixel.
 
 It adds a companion function to `sixel_dither_set_transparent`, `sixel_output_set_transparent` which passes on the color key to the output.
 The output then enables sixel transparancy mode when it encodes a sixel header if it detects a color key >=0.
+A color key is also added to the encoder, so `img2sixel` can pass it on to dither or output, or visa versa.
 
 It also adds options `-T TRANSCOLOR` and `--transparent=TRANSCOLOR` to `img2sixel` (and internally in libsixel) to force a specific color key index (0..255)
+Tested with bitdepths:
+- 1bpp --- OK*
+- 4bpp PAL OK
+- 8bpp PAL OK
+- RGBA --- OK
 
-!NOTE: calling `sixel_output_set_transparent` isnt really required, since the color key should be forwarded to or from the encoder/dither.
+Code seems to already reduce the alpha channel to color index 0, so alpha works as well?
+
+*To get 1bpp images drawn correctly, `--ormode` is required:
+- `img2sixel 1bpp.png --ormode -T0` makes black transparent and draws with color white
+- `img2sixel 1bpp.png --ormode -T1` makes black transparent and draws with color black
+
+!NOTE: calling `sixel_output_set_transparent` isnt really required, since the color key should be forwarded to or from the encoder/dither internally.
 
 ## This is a fork
 
