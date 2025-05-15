@@ -358,9 +358,13 @@ typedef int SIXELSTATUS;
                                                     size -> encode to as small sixel
                                                             sequence as possible
                                                 */
-#define SIXEL_OPTFLAG_ORMODE             ('O')  /* -O, --:
-                                                  output  sixel image
+#define SIXEL_OPTFLAG_ORMODE            ('O')  /* -O, --ormode:
+                                                  output ormode sixel image
                                                 */
+#define SIXEL_OPTFLAG_TRANSPARENT				('T')	 /* -T TRANSCOLOR, --transparent=TRANSCOLOR:
+																										set transparent color key
+																										TRANSCOLOR is a color index (0..255), -1=disabled
+																								*/
 #define SIXEL_OPTFLAG_BGCOLOR           ('B')  /* -B BGCOLOR, --bgcolor=BGCOLOR:
                                                   specify background color
                                                   BGCOLOR is represented by the
@@ -660,7 +664,7 @@ sixel_output_set_ormode(
 SIXELAPI void
 sixel_output_set_transparent(
 	sixel_output_t /* in */ *output,			/* output context */
-	int /* in */ transparent);						/* transparent color index *
+	int /* in */ transparent);						/* transparent color index */
 
 /* set encodeing policy: auto, fast or size */
 SIXELAPI void
